@@ -8,7 +8,7 @@ import (
 )
 
 func TestGETPlayers(t *testing.T) {	
-	server := PlayerServer{}
+	server := &PlayerServer{}
 
 	t.Run("returns Pepper's score", func(t *testing.T) {
         request := newGetScoreRequest("Pepper")
