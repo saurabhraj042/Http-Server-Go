@@ -8,6 +8,7 @@ import (
 )
 
 func TestGETPlayers(t *testing.T) {
+
 	t.Run("returns Pepper's score", func(t *testing.T) {
         request := newGetScoreRequest("Pepper")
         response := httptest.NewRecorder()
