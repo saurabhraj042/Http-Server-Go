@@ -78,7 +78,8 @@ func TestStoreWins(t *testing.T) {
 	server := &PlayerServer{&store}
 
 	t.Run("it returns accepted on POST", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodPost, "/players/Pepper", nil)
+		player := "Pepper"
+		request := newPostWinRequest(player)
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
@@ -87,6 +88,10 @@ func TestStoreWins(t *testing.T) {
 
 		if len(store.winCalls) != 1 {
 			t.Errorf("got %d calls to RecordWin want %d", len(store.winCalls), 1)
+		}
+
+		if store.winCalls[0] != player {
+			t.Errorf("got : %v want %v", store.winCalls[0], player)
 		}
 	})
 }
@@ -103,6 +108,10 @@ func newGetScoreRequest(name string) *http.Request {
 	return req
 }
 
+func newPostWinRequest(name string) *http.Request {
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("/players/%s", name), nil)
+	return req
+}
 func assertResponseBody(t testing.TB, got, want string) {
 	t.Helper()
 	if got != want {
